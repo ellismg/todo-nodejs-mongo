@@ -5,6 +5,18 @@ param tags object
 
 var abbrs = loadJsonContent('abbreviations.json')
 
+resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
+  name: '${abbrs.webServerFarms}${resourceToken}'
+  location: location
+  tags: tags
+  sku: {
+    name: 'B1'
+  }
+  properties: {
+    reserved: true
+  }
+}
+
 resource web 'Microsoft.Web/sites@2022-03-01' = {
   name: '${abbrs.webSitesAppService}web-${resourceToken}'
   location: location
@@ -109,18 +121,6 @@ resource api 'Microsoft.Web/sites@2022-03-01' = {
   }
 }
 
-resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
-  name: '${abbrs.webServerFarms}${resourceToken}'
-  location: location
-  tags: tags
-  sku: {
-    name: 'B1'
-  }
-  properties: {
-    reserved: true
-  }
-}
-
 resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' = {
   name: '${abbrs.keyVaultVaults}${resourceToken}'
   location: location
@@ -161,31 +161,6 @@ resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' = {
     properties: {
       value: cosmos.listConnectionStrings().connectionStrings[0].connectionString
     }
-  }
-}
-
-resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2021-12-01-preview' = {
-  name: '${abbrs.operationalInsightsWorkspaces}${resourceToken}'
-  location: location
-  tags: tags
-  properties: any({
-    retentionInDays: 30
-    features: {
-      searchVersion: 1
-    }
-    sku: {
-      name: 'PerGB2018'
-    }
-  })
-}
-
-module applicationInsightsResources 'applicationinsights.bicep' = {
-  name: 'applicationinsights-resources'
-  params: {
-    resourceToken: resourceToken
-    location: location
-    tags: tags
-    workspaceId: logAnalyticsWorkspace.id
   }
 }
 
@@ -269,6 +244,16 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2022-05-15' = {
     }
   }
 }
+
+module applicationInsightsResources 'applicationinsights.bicep' = {
+  name: 'applicationinsights-resources'
+  params: {
+    resourceToken: resourceToken
+    location: location
+    tags: tags
+  }
+}
+
 
 output AZURE_COSMOS_CONNECTION_STRING_KEY string = 'AZURE-COSMOS-CONNECTION-STRING'
 output AZURE_COSMOS_DATABASE_NAME string = cosmos::database.name
