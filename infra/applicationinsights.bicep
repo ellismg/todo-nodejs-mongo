@@ -4,6 +4,12 @@ param tags object
 
 var abbrs = loadJsonContent('abbreviations.json')
 
+resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2021-12-01-preview' = {
+  name: '${abbrs.operationalInsightsWorkspaces}${resourceToken}'
+  location: location
+  tags: tags
+}
+
 resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
   name: '${abbrs.insightsComponents}${resourceToken}'
   location: location
@@ -11,6 +17,7 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
   kind: 'web'
   properties: {
     Application_Type: 'web'
+    WorkspaceResourceId: logAnalyticsWorkspace.id
   }
 }
 
