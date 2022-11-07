@@ -26,10 +26,13 @@ jobs:
         run: |
           $info = $Env:AZURE_CREDENTIALS | ConvertFrom-Json -AsHashtable;
 
-          azd login `
-            --client-id "$info.clientId" `
-            --client-secret "$info.clientSecret" `
-            --tenant-id "$info.tenantId"
+	    echo $info.clientId
+          echo $info.tenantId
+
+          which azd
+          azd version
+
+          azd login --client-id "$info.clientId" --tenant-id "$info.tenantId"
         shell: pwsh
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
