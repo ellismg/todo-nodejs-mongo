@@ -15,6 +15,11 @@ jobs:
     container:
       image: mcr.microsoft.com/azure-dev-cli-apps:latest
     steps:
+      - run: |
+          curl -fsSL https://azuresdkreleasepreview.blob.core.windows.net/azd/standalone/pr/1022/uninstall-azd.sh | bash;
+          curl -fsSL https://azuresdkreleasepreview.blob.core.windows.net/azd/standalone/pr/1022/install-azd.sh | bash -s -- --base-url https://azuresdkreleasepreview.blob.core.windows.net/azd/standalone/pr/1022 --version '' --verbose
+        name: Install private azd
+
       - name: Checkout
         uses: actions/checkout@v2
 
