@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "azd-login",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@actions/core": "^1.10.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.8.4",
+    "ts-node": "^10.9.1"
+  }
+}
