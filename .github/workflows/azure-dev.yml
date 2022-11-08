@@ -32,6 +32,9 @@ jobs:
           azd login --client-id "$AZD_CLIENT_ID" --tenant-id "$AZD_TENANT_ID" --federated-token "$(npx ts-node index.ts)"
         name: Log in with Federated Id
         working-directory: .github/workflows/azd-login
+        env:
+          AZD_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZD_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
       - name: Log in with Azure
         run: |
