@@ -32,7 +32,6 @@ jobs:
           which azd
           azd version
 
-          azd login --check-status
           azd login --client-id "$info.clientId" --tenant-id "$info.tenantId" --client-secret "$info.clientSecret"
           azd login --check-status
         shell: pwsh
