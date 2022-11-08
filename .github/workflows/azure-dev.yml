@@ -32,7 +32,7 @@ jobs:
           which azd
           azd version
 
-          azd login --client-id "$info.clientId" --tenant-id "$info.tenantId" --client-secret "$info.clientSecret" --debug
+          azd login --client-id "$($info.clientId)" --tenant-id "$($info.tenantId)" --client-secret "$($info.clientSecret)"
 
           ls -l /root/.azd
           ls -l /root/.azd/auth
