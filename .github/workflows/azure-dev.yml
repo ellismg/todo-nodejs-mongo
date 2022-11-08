@@ -34,8 +34,9 @@ jobs:
 
           azd login --client-id "$info.clientId" --tenant-id "$info.tenantId" --client-secret "$info.clientSecret" --debug
 
-          ls -l ~/.azd
-          cat ~/.azd/config.json
+          ls -l /root/.azd
+          ls -l /root/.azd/auth
+          cat /root/.azd/config.json
 
           azd login --check-status --debug
         shell: pwsh
