@@ -29,7 +29,8 @@ jobs:
 
       - run: |
           npm i
-          npx ts-node index.ts
+          azd login --client-id "$AZD_CLIENT_ID" --tenant-id "$AZD_TENANT_ID" --federated-token "$(npx ts-node index.ts)"
+        name: Log in with Federated Id
         working-directory: .github/workflows/azd-login
 
       - name: Log in with Azure
@@ -40,6 +41,7 @@ jobs:
             --client-id "$($info.clientId)" `
             --client-secret "$($info.clientSecret)" `
             --tenant-id "$($info.tenantId)"
+            --debug
         shell: pwsh
         env:
           AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
