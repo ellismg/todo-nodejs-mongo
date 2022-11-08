@@ -33,6 +33,9 @@ jobs:
           azd version
 
           azd login --client-id "$info.clientId" --tenant-id "$info.tenantId" --client-secret "$info.clientSecret"
+
+          cat ~/.azd/config.json
+
           azd login --check-status
         shell: pwsh
         env:
