@@ -26,7 +26,7 @@ jobs:
         run: |
           $info = $Env:AZURE_CREDENTIALS | ConvertFrom-Json -AsHashtable;
 
-	    echo $info.clientId
+          echo $info.clientId
           echo $info.tenantId
 
           which azd
