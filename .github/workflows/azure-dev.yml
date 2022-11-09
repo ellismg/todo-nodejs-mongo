@@ -29,8 +29,9 @@ jobs:
 
       - run: |
           npm i
-          az login --service-principal -u "$AZD_CLIENT_ID" -t "$AZD_TENANT_ID" --federated-token "$(npx ts-node index.ts)" --debug --verbose
-          azd login --client-id "$AZD_CLIENT_ID" --tenant-id "$AZD_TENANT_ID" --federated-token "$(npx ts-node index.ts)" --debug
+          echo $(npx ts-node index.ts | tail -n 1)
+          az login --service-principal -u "$AZD_CLIENT_ID" -t "$AZD_TENANT_ID" --federated-token "$(npx ts-node index.ts | tail -n 1)" --debug --verbose
+          azd login --client-id "$AZD_CLIENT_ID" --tenant-id "$AZD_TENANT_ID" --federated-token "$(npx ts-node index.ts | tail -n 1)" --debug
         name: Log in with Federated Id
         working-directory: .github/workflows/azd-login
         env:
