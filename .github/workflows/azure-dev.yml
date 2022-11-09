@@ -29,7 +29,7 @@ jobs:
 
       - run: |
           npm i
-          azd login --client-id "$AZD_CLIENT_ID" --tenant-id "$AZD_TENANT_ID" --federated-token "$(npx ts-node index.ts | tail -n 1)"
+          azd login --client-id "$AZD_CLIENT_ID" --tenant-id "$AZD_TENANT_ID" --federated-token-provider "github"
         name: Log in with Federated Id
         working-directory: .github/workflows/azd-login
         env:
