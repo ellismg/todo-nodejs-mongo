@@ -29,28 +29,12 @@ jobs:
 
       - run: |
           npm i
-          echo $(npx ts-node index.ts | tail -n 1)
-          echo $(npx ts-node index.ts | tail -n 1 | cut -d. -f2)
-          az login --service-principal -u "c50b8577-5ae8-4fdf-b706-2290665194b3" -t "72f988bf-86f1-41af-91ab-2d7cd011db47" --federated-token "$(npx ts-node index.ts | tail -n 1)" --debug --verbose
-          azd login --client-id "c50b8577-5ae8-4fdf-b706-2290665194b3" --tenant-id "72f988bf-86f1-41af-91ab-2d7cd011db47" --federated-token "$(npx ts-node index.ts | tail -n 1)" --debug
+          azd login --client-id "$AZD_CLIENT_ID" --tenant-id "$AZD_TENANT_ID" --federated-token "$(npx ts-node index.ts | tail -n 1)"
         name: Log in with Federated Id
         working-directory: .github/workflows/azd-login
         env:
-          AZD_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZD_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-
-      - name: Log in with Azure
-        run: |
-          $info = $Env:AZURE_CREDENTIALS | ConvertFrom-Json -AsHashtable;
-
-          azd login `
-            --client-id "$($info.clientId)" `
-            --client-secret "$($info.clientSecret)" `
-            --tenant-id "$($info.tenantId)" `
-            --debug
-        shell: pwsh
-        env:
-          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+          AZD_CLIENT_ID: c50b8577-5ae8-4fdf-b706-2290665194b3
+          AZD_TENANT_ID: 72f988bf-86f1-41af-91ab-2d7cd011db47
 
       # - name: Azure Dev Provision
       #   run: azd provision --no-prompt
