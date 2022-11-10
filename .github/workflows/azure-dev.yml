@@ -37,7 +37,7 @@ jobs:
           azd login `
             --client-id "$($info.clientId)" `
             --client-secret "$($info.clientSecret)" `
-            --federated-token-provider "github"
+            --federated-credential-provider "github"
         shell: pwsh
 
       - name: Log in with Azure (Client Credentials)
