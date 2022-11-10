@@ -21,31 +21,8 @@ jobs:
       image: mcr.microsoft.com/azure-dev-cli-apps:latest
     steps:
       - run: |
-          curl -fsSL https://azuresdkreleasepreview.blob.core.windows.net/azd/standalone/pr/1022/install-azd.sh | bash -s -- --base-url https://azuresdkreleasepreview.blob.core.windows.net/azd/standalone/pr/1022 --version '' --verbose
-        name: Install private azd
+          Write-Host "::add-mask::foo-bar-baz"
+          Write-Host "the secret value is: foo-bar-baz"
+        shell: pwsh
 
-      - name: Checkout
-        uses: actions/checkout@v2
 
-      - run: |
-          npm i
-          azd login --client-id "$AZD_CLIENT_ID" --tenant-id "$AZD_TENANT_ID" --federated-token-provider "github"
-        name: Log in with Federated Id
-        working-directory: .github/workflows/azd-login
-        env:
-          AZD_CLIENT_ID: c50b8577-5ae8-4fdf-b706-2290665194b3
-          AZD_TENANT_ID: 72f988bf-86f1-41af-91ab-2d7cd011db47
-
-      - name: Azure Dev Provision
-        run: azd provision --no-prompt
-        env:
-          AZURE_ENV_NAME: ${{ secrets.AZURE_ENV_NAME }}
-          AZURE_LOCATION: ${{ secrets.AZURE_LOCATION }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-      - name: Azure Dev Deploy
-        run: azd deploy --no-prompt
-        env:
-          AZURE_ENV_NAME: ${{ secrets.AZURE_ENV_NAME }}
-          AZURE_LOCATION: ${{ secrets.AZURE_LOCATION }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
