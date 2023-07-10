@@ -44,3 +44,4 @@ resource database 'Microsoft.DocumentDB/databaseAccounts/mongodbDatabases@2022-0
 output connectionStringKey string = connectionStringKey
 output databaseName string = databaseName
 output endpoint string = cosmos.outputs.endpoint
+output resourceId string = database.id

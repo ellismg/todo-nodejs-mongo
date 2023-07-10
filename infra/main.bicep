@@ -158,6 +158,57 @@ module apimApi './app/apim-api.bicep' = if (useAPIM) {
   }
 }
 
+// Configure an AppSpace and register the relevent resources we want to surface with it.
+resource appSpace 'Microsoft.AppSpaces/spaces@2023-07-10-preview' = {
+  name: 'appspace-${resourceToken}'
+  location: location
+  tags: tags
+  properties: {
+    primaryResourceId: web.outputs.SERVICE_WEB_RESOURCE_ID
+  }
+
+  resource webSpaceResource 'SpaceResources' = {
+    name: 'web'
+    location: location
+    properties: {
+      resourceId: web.outputs.SERVICE_WEB_RESOURCE_ID
+    }
+  }
+
+  resource apiSpaceResource 'SpaceResources' = {
+    name: 'api'
+    location: location
+    properties: {
+      resourceId: api.outputs.SERVICE_API_RESOURCE_ID
+    }
+  }
+
+  resource cosmosSpaceResource 'SpaceResources' = {
+    name: 'cosmos'
+    location: location
+    properties: {
+      resourceId: cosmos.outputs.resourceId
+    }
+  }
+
+  resource keyVaultSpaceResource 'SpaceResources' = {
+    name: 'keyvault'
+    location: location
+    properties: {
+      resourceId: keyVault.outputs.resourceId
+    }
+  }
+
+  resource appInsightsSpaceResource 'SpaceResource' = {
+    name: 'appinsights'
+    location: location
+    properties: {
+      resourceId: monitoring.outputs.applicationInsightsResourceId
+    }
+  }
+}
+
+
 // Data outputs
 output AZURE_COSMOS_CONNECTION_STRING_KEY string = cosmos.outputs.connectionStringKey
 output AZURE_COSMOS_DATABASE_NAME string = cosmos.outputs.databaseName

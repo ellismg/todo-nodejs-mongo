@@ -31,3 +31,4 @@ module api '../core/host/appservice.bicep' = {
 output SERVICE_API_IDENTITY_PRINCIPAL_ID string = api.outputs.identityPrincipalId
 output SERVICE_API_NAME string = api.outputs.name
 output SERVICE_API_URI string = api.outputs.uri
+output SERVICE_API_RESOURCE_ID string = api.outputs.resourceId
