@@ -67,12 +67,17 @@ module webAppSettings './core/host/appservice-appsettings.bicep' = {
   }
 }
 
+// Allow managing parts of the API Module configuration via this `api.settings.json` file which lives in the same folder as this `main.bicep` file.
+// If the `name` property is non empty on this object, it will be used as the name of the API Service instead of the default. If set, this value
+// overrides the `apiServiceName` parameter of this template.
+var apiModuleConfig = loadJsonContent('./api.settings.json')
+
 // The application backend
 module api './app/api.bicep' = {
   name: 'api'
   scope: rg
   params: {
-    name: !empty(apiServiceName) ? apiServiceName : '${abbrs.webSitesAppService}api-${resourceToken}'
+    name: !empty(apiModuleConfig.name) ? apiModuleConfig.name : !empty(apiServiceName) ? apiServiceName : '${abbrs.webSitesAppService}api-${resourceToken}'
     location: location
     tags: tags
     applicationInsightsName: monitoring.outputs.applicationInsightsName
